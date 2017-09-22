@@ -195,4 +195,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     client.vm.provision :shell, :path => "tests/provision_basic_debian.sh"
     client.vm.provision :shell, :inline => "puppet apply /vagrant/tests/sensu-client.pp"
   end
+
+  config.vm.define "macos-client", autostart: false do |client|
+    client.vm.box = "jhcook/macos-sierra"
+    client.vm.hostname = 'macos-client.example.com'
+    client.vm.network  :private_network, ip: "192.168.56.19"
+    client.vm.provision :shell, :path => "tests/provision_macos_puppet.sh"
+    client.vm.provision :shell, :path => "tests/provision_macos_puppet_module_setup.sh"
+  end
 end
